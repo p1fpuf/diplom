@@ -1,5 +1,7 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Zing+Script&family=Angst&display=swap');
 
 body {
   @apply bg-[#fdfcf9] text-gray-900;
+  font-family: 'Angst', sans-serif;
 }
