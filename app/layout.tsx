@@ -2,6 +2,8 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import Services from './components/Services'
+import About from './components/About'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +31,8 @@ export default function RootLayout({
 		<body className="font-[Angst]">
 		  <Header />
 		  <Hero />
+		  <Services />
+		  <About />
 		  {children}
 		</body>
 	  </html>

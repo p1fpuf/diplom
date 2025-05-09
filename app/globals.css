@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Zing+Script&family=Angst&display=swap');
+@import 'keen-slider/keen-slider.min.css';
 
 body {
   @apply bg-[#fdfcf9] text-gray-900;
