@@ -1,15 +1,9 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Header from './components/Header'
-import Hero from './components/Hero'
-import Services from './components/Services'
-import About from './components/About'
-import Gallery from './components/Gallery'
-import Reviews from './components/Reviews'
-import ContactSection from './components/ContactSection'
 import Footer from './components/Footer'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata = {
 	title: 'StudioCherkasovoy',
@@ -21,28 +15,23 @@ export const metadata = {
 
 export default function RootLayout({
 	children,
-  }: {
-	children: React.ReactNode;
-  }) {
+}: {
+	children: React.ReactNode
+}) {
 	return (
-	  <html lang="ru">
-		<head>
-		  <link
-			href="https://fonts.googleapis.com/css2?family=Zing+Script&family=Angst&display=swap"
-          rel="stylesheet"
-		  />
-		</head>
-		<body className="font-[Angst]">
-		  <Header />
-		  <Hero />
-		  <Services />
-		  <About />
-		  <Gallery />
-		  <Reviews />
-		  <ContactSection />
-		  <Footer />
-		  {children}
-		</body>
-	  </html>
-	);
-  }
+		<html lang='ru'>
+			<head>
+				{/* Подключение шрифтов из Google Fonts */}
+				<link
+					href='https://fonts.googleapis.com/css2?family=Zing+Script&family=Angst&display=swap'
+					rel='stylesheet'
+				/>
+			</head>
+			<body className={`${inter.className} font-[Angst]`}>
+				<Header />
+				{children}
+				<Footer />
+			</body>
+		</html>
+	)
+}
