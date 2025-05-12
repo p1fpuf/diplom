@@ -5,3 +5,8 @@
 html {
   scroll-behavior: smooth;
 }
+body {
+  background-color: #C8BFB5;
+  color: #1f2937;
+  font-family: 'Angst', sans-serif;
+}
