@@ -87,8 +87,8 @@ export default function Footer() {
 									icon: Instagram,
 									url: 'https://www.instagram.com/studiocherkasovoy?igsh=aGw4YWpweWV1ZWo2',
 								},
-								{ icon: Send, url: 'https://t.me' },
-								{ icon: FaWhatsapp, url: 'https://wa.me' },
+								{ icon: Send, url: 'https://t.me/Tanya_che81' },
+								{ icon: FaWhatsapp, url: 'https://wa.me/79089043053' },
 							].map(({ icon: Icon, url }) => (
 								<a
 									key={url}

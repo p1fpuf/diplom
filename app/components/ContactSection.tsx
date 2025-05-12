@@ -75,14 +75,14 @@ export default function ContactSection() {
 								<Instagram className='w-6 h-6 text-[#7D5A50] hover:text-[#B0A89F] transition' />
 							</a>
 							<a
-								href='https://t.me/yourtelegram'
+								href='https://t.me/Tanya_che81'
 								target='_blank'
 								rel='noopener noreferrer'
 							>
 								<Send className='w-6 h-6 text-[#7D5A50] hover:text-[#B0A89F] transition' />
 							</a>
 							<a
-								href='https://wa.me/79991234567'
+								href='https://wa.me/79089043053'
 								target='_blank'
 								rel='noopener noreferrer'
 							>
