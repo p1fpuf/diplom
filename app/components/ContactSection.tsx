@@ -22,7 +22,7 @@ export default function ContactSection() {
 					{/* Карта слева */}
 					<div className='rounded-xl overflow-hidden shadow-md'>
 						<iframe
-							src='https://yandex.ru/map-widget/v1/?ll=60.541905%2C56.837785&z=16&pt=60.541905,56.837785~ul'
+							src='https://yandex.ru/map-widget/v1/?ll=60.541562%2C56.837946&z=16&pt=60.541562%2C56.837946~ul'
 							width='100%'
 							height='100%'
 							style={{ minHeight: '400px', border: 0 }}
@@ -38,7 +38,7 @@ export default function ContactSection() {
 							<MapPin className='text-[#7D5A50]' />
 							<div>
 								<p className='font-semibold'>Адрес</p>
-								<p>г. Екатеринбург, ул. Татищева, 100А</p>
+								<p>г. Екатеринбург, ул. Татищева, 100</p>
 							</div>
 						</div>
 
