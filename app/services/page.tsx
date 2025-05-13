@@ -49,6 +49,12 @@ export default async function ServicesPage() {
 								<p className='text-[#7D5A50] font-bold mb-4'>
 									{service.price?.toString()} ₽
 								</p>
+								{service.duration_minutes && (
+									<p className='text-[#7D5A50] font-bold mb-4'>
+										Длительность: {service.duration_minutes} минут
+									</p>
+								)}
+
 								<Link
 									href={`/booking?service=${service.id}`}
 									className='inline-block bg-[#7D5A50] text-white px-4 py-2 rounded-lg hover:bg-[#63453d] transition'
