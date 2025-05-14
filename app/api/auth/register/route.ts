@@ -1,30 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
-import { prisma } from '@/lib/prisma' // Подключение Prisma
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
 	try {
-		const { name, email, phone, password } = await req.json()
+		const { name, email, password } = await req.json()
 
-		// Проверка обязательных полей
 		if (!name || !email || !password) {
-			return NextResponse.json(
-				{ error: 'Необходимо заполнить все обязательные поля' },
-				{ status: 400 }
-			)
+			return NextResponse.json({ error: 'Заполните все поля' }, { status: 400 })
 		}
 
-		// Проверка на существующий email
+		// Проверка на существующего пользователя
 		const existingUser = await prisma.users.findUnique({ where: { email } })
 
 		if (existingUser) {
 			return NextResponse.json(
 				{ error: 'Пользователь с таким email уже существует' },
-				{ status: 400 }
+				{ status: 409 }
 			)
 		}
 
-		// Хеширование пароля
+		// Хэширование пароля
 		const hashedPassword = await bcrypt.hash(password, 10)
 
 		// Создание пользователя
@@ -32,17 +28,16 @@ export async function POST(req: NextRequest) {
 			data: {
 				name,
 				email,
-				phone,
 				password_hash: hashedPassword,
 			},
 		})
 
-		return NextResponse.json({
-			message: 'Регистрация прошла успешно',
-			user: { id: user.id, email: user.email },
-		})
+		return NextResponse.json({ message: 'Пользователь зарегистрирован', user })
 	} catch (error) {
 		console.error(error)
-		return NextResponse.json({ error: 'Ошибка сервера' }, { status: 500 })
+		return NextResponse.json(
+			{ error: 'Ошибка при регистрации' },
+			{ status: 500 }
+		)
 	}
 }

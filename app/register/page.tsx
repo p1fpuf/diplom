@@ -7,11 +7,37 @@ export default function RegisterPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [name, setName] = useState('')
-
 	const handleRegister = async (e: React.FormEvent) => {
 		e.preventDefault()
-		// здесь будет логика отправки данных на API
+	
+		try {
+			const res = await fetch('/api/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					name,
+					email,
+					password,
+				}),
+			})
+	
+			const data = await res.json()
+	
+			if (!res.ok) {
+				alert(data.error || 'Произошла ошибка при регистрации')
+				return
+			}
+	
+			alert('Регистрация прошла успешно')
+			window.location.href = '/login'
+		} catch (error) {
+			console.error(error)
+			alert('Произошла ошибка при подключении к серверу')
+		}
 	}
+	
 
 	return (
 		<div className='min-h-screen flex items-center justify-center bg-[#C8BFB5] p-4'>
