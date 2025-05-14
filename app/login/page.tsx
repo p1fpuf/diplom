@@ -2,14 +2,36 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
+	const [error, setError] = useState('')
+	const router = useRouter()
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
-		// здесь будет логика отправки данных на API
+		setError('')
+
+		try {
+			const res = await fetch('/api/auth/login', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email, password }),
+				credentials: 'include',
+			})
+
+			if (res.ok) {
+				router.push('/dashboard')
+			} else {
+				const data = await res.json()
+				setError(data.error || 'Ошибка входа')
+			}
+		} catch (err) {
+			console.error(err)
+			setError('Ошибка подключения к серверу')
+		}
 	}
 
 	return (
@@ -19,6 +41,8 @@ export default function LoginPage() {
 				className='bg-white p-6 rounded-2xl shadow-lg w-full max-w-md'
 			>
 				<h2 className='text-2xl font-semibold mb-4'>Вход</h2>
+
+				{error && <p className='text-red-600 mb-4 text-sm'>{error}</p>}
 
 				<input
 					type='email'
