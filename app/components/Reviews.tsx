@@ -12,7 +12,7 @@ const reviews = [
   {
     name: "Олег",
     text: "Очень профессионально. Теперь хожу регулярно и чувствую себя прекрасно.",
-    avatar: "/avatars/avatar2.jpg",
+    avatar: "/avatar2.png",
   },
   {
     name: "Мария",

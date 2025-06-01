@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key' // лучше хранить в .env
+const JWT_SECRET = process.env.JWT_SECRET!
 
 export async function POST(req: Request) {
 	try {
@@ -26,7 +26,10 @@ export async function POST(req: Request) {
 		const isPasswordValid = await bcrypt.compare(password, user.password_hash)
 
 		if (!isPasswordValid) {
-			return NextResponse.json({ error: 'Неверный пароль' }, { status: 401 })
+			return NextResponse.json(
+				{ error: 'Неверный email или пароль' },
+				{ status: 401 }
+			)			
 		}
 
 		const token = jwt.sign({ userId: user.id, email: user.email }, JWT_SECRET, {
@@ -34,8 +37,13 @@ export async function POST(req: Request) {
 		})
 
 		const response = NextResponse.json({ message: 'Успешный вход' })
-		response.cookies.set('token', token, { httpOnly: true, path: '/' })
-
+		response.cookies.set('studio_token', token, {
+			httpOnly: true,
+			secure: process.env.NODE_ENV === 'production',
+			sameSite: 'lax',
+			path: '/',
+			maxAge: 60 * 60 * 24 * 7, // 7 дней
+		})	
 		return response
 	} catch (error) {
 		console.error(error)

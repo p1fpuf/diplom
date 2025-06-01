@@ -2,35 +2,46 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { signIn } from 'next-auth/react'
 
 export default function LoginPage() {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
+	const [loading, setLoading] = useState(false)
 	const router = useRouter()
+	const searchParams = useSearchParams()
+	const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
 
 	const handleLogin = async (e: React.FormEvent) => {
 		e.preventDefault()
 		setError('')
+		setLoading(true)
 
 		try {
-			const res = await fetch('/api/auth/login', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ email, password }),
-				credentials: 'include',
+			// Используем встроенную функцию signIn из NextAuth
+			const result = await signIn('credentials', {
+				redirect: false,
+				email,
+				password,
+				callbackUrl,
 			})
 
-			if (res.ok) {
-				router.push('/dashboard')
+			// Обрабатываем результат
+			if (result?.error) {
+				setError(result.error)
+			} else if (result?.ok) {
+				// Успешный вход - перенаправляем
+				router.push(callbackUrl)
 			} else {
-				const data = await res.json()
-				setError(data.error || 'Ошибка входа')
+				setError('Неизвестная ошибка при входе')
 			}
 		} catch (err) {
-			console.error(err)
+			console.error('Login error:', err)
 			setError('Ошибка подключения к серверу')
+		} finally {
+			setLoading(false)
 		}
 	}
 
@@ -51,6 +62,7 @@ export default function LoginPage() {
 					onChange={e => setEmail(e.target.value)}
 					required
 					className='w-full mb-4 p-2 border rounded'
+					disabled={loading}
 				/>
 
 				<input
@@ -60,13 +72,15 @@ export default function LoginPage() {
 					onChange={e => setPassword(e.target.value)}
 					required
 					className='w-full mb-4 p-2 border rounded'
+					disabled={loading}
 				/>
 
 				<button
 					type='submit'
-					className='w-full bg-[#4A4A4A] text-white py-2 rounded hover:bg-black transition'
+					className='w-full bg-[#4A4A4A] text-white py-2 rounded hover:bg-black transition disabled:opacity-50'
+					disabled={loading}
 				>
-					Войти
+					{loading ? 'Вход...' : 'Войти'}
 				</button>
 
 				<p className='text-center text-sm mt-4'>

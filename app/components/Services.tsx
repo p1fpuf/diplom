@@ -2,7 +2,7 @@
 
 import { useKeenSlider } from 'keen-slider/react'
 import 'keen-slider/keen-slider.min.css'
-import { useEffect, useRef } from 'react'
+import Link from 'next/link'
 
 const services = [
 	{ title: 'Массаж спины', image: '/images/service1.png' },
@@ -44,9 +44,11 @@ export default function Services() {
 							/>
 							<div className='p-4 text-center text-[#4A4A4A] text-lg flex flex-col justify-between flex-1'>
 								<div className='mb-4'>{service.title}</div>
-								<button className='mt-auto px-4 py-2 bg-[#7D5A50] text-white rounded hover:bg-[#5c4139] transition-all'>
-									Записаться
-								</button>
+								<Link href='/services' className='mt-auto'>
+									<button className='w-full px-4 py-2 bg-[#7D5A50] text-white rounded hover:bg-[#5c4139] transition-all'>
+										Записаться
+									</button>
+								</Link>
 							</div>
 						</div>
 					))}

@@ -1,6 +1,8 @@
 // components/Hero.tsx
 'use client';
 
+import Link from 'next/link'
+
 export default function Hero() {
   return (
     <section className="bg-[url('/hero-image.png')] bg-cover bg-center text-white py-40">
@@ -12,7 +14,7 @@ export default function Hero() {
           Это диалог с вашим внутренним «я» через прикосновения.
         </p>
         <a
-          href="#booking"
+          href="/services"
           className="bg-[#7D5A50] text-white py-3 px-8 rounded-lg text-lg md:text-xl hover:bg-[#6B4A3A] transition"
         >
           Записаться
