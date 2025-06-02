@@ -2,10 +2,10 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useUser } from '@/hooks/useUser'
+import { useSession } from 'next-auth/react'
 
 export default function Header() {
-	const { user, loading } = useUser()
+	const { data: session, status } = useSession()
 	const router = useRouter()
 
 	const navLinks = [
@@ -16,6 +16,9 @@ export default function Header() {
 		{ path: '#reviews', label: 'Отзывы' },
 		{ path: '#contacts', label: 'Контакты' },
 	]
+
+	const user = session?.user
+	const isAuthenticated = status === 'authenticated'
 
 	return (
 		<header className='bg-[#B0A89F] shadow-md sticky top-0 z-50'>
@@ -50,9 +53,9 @@ export default function Header() {
 				</nav>
 
 				<div className='flex items-center gap-4'>
-					{!loading && user ? (
+					{isAuthenticated ? (
 						<img
-							src={user.avatarUrl || '/avatar.png'}
+							src={user?.image || '/avatar.png'}
 							alt='Профиль'
 							onClick={() => router.push('/dashboard')}
 							className='w-10 h-10 rounded-full cursor-pointer border border-gray-300'

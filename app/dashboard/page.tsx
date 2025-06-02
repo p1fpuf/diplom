@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { signOut } from 'next-auth/react'
 import { User, Booking } from '../types'
 
 export default function DashboardPage() {
@@ -9,7 +10,6 @@ export default function DashboardPage() {
 	const [bookings, setBookings] = useState<Booking[]>([])
 	const router = useRouter()
 
-	// Сохранена оригинальная логика загрузки данных
 	useEffect(() => {
 		const fetchData = async () => {
 			const res = await fetch('/api/user', {
@@ -29,12 +29,8 @@ export default function DashboardPage() {
 		fetchData()
 	}, [router])
 
-	const handleLogout = async () => {
-		await fetch('api/auth/logout', {
-			method: 'POST',
-			credentials: 'include',
-		})
-		router.push('/login')
+	const handleLogout = () => {
+		signOut({ callbackUrl: '/login' })
 	}
 
 	if (!user)
@@ -47,7 +43,6 @@ export default function DashboardPage() {
 	return (
 		<div className='min-h-screen bg-[#C8BFB5] py-8 px-4 sm:px-6 lg:px-8'>
 			<div className='max-w-3xl mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8'>
-				{/* Шапка профиля */}
 				<header className='mb-8'>
 					<div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6'>
 						<h1 className='text-3xl font-bold text-gray-900 mb-4 sm:mb-0'>
@@ -59,7 +54,6 @@ export default function DashboardPage() {
 					</div>
 				</header>
 
-				{/* Секция истории записей */}
 				<section className='mb-8'>
 					<h2 className='text-xl font-semibold text-gray-800 mb-4 flex items-center'>
 						📖 История записей
@@ -97,7 +91,6 @@ export default function DashboardPage() {
 					)}
 				</section>
 
-				{/* Кнопка выхода */}
 				<button
 					onClick={handleLogout}
 					className='w-full sm:w-auto flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-red-600 bg-red-50 hover:bg-red-100 transition-colors duration-200'

@@ -1,5 +1,6 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
+import ClientLayout from './ClientLayout'
 import Header from './components/Header'
 import Footer from './components/Footer'
 
@@ -21,16 +22,17 @@ export default function RootLayout({
 	return (
 		<html lang='ru'>
 			<head>
-				{/* Подключение шрифтов из Google Fonts */}
 				<link
 					href='https://fonts.googleapis.com/css2?family=Zing+Script&family=Angst&display=swap'
 					rel='stylesheet'
 				/>
 			</head>
 			<body className={`${inter.className} font-[Angst]`}>
-				<Header />
-				{children}
-				<Footer />
+				<ClientLayout>
+					<Header />
+					{children}
+					<Footer />
+				</ClientLayout>
 			</body>
 		</html>
 	)

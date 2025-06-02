@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma'
-import BookingForm from '@/app/bookings/bookingForm'
+import BookingForm from '@/app/bookings/page'
 import { notFound } from 'next/navigation'
 
 type Props = {

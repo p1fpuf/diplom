@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { signIn } from 'next-auth/react'
 
 export default function LoginPage() {
@@ -10,7 +10,7 @@ export default function LoginPage() {
 	const [password, setPassword] = useState('')
 	const [error, setError] = useState('')
 	const [loading, setLoading] = useState(false)
-	const router = useRouter()
+
 	const searchParams = useSearchParams()
 	const callbackUrl = searchParams.get('callbackUrl') || '/dashboard'
 
@@ -20,26 +20,17 @@ export default function LoginPage() {
 		setLoading(true)
 
 		try {
-			// Используем встроенную функцию signIn из NextAuth
-			const result = await signIn('credentials', {
-				redirect: false,
+			const res = await signIn('credentials', {
 				email,
 				password,
-				callbackUrl,
+				redirect: true,
+				callbackUrl: callbackUrl,
 			})
 
-			// Обрабатываем результат
-			if (result?.error) {
-				setError(result.error)
-			} else if (result?.ok) {
-				// Успешный вход - перенаправляем
-				router.push(callbackUrl)
-			} else {
-				setError('Неизвестная ошибка при входе')
-			}
+			// ❗ Этот блок НЕ нужен, т.к. редирект произойдёт автоматически
 		} catch (err) {
+			setError('Ошибка входа. Попробуйте позже.')
 			console.error('Login error:', err)
-			setError('Ошибка подключения к серверу')
 		} finally {
 			setLoading(false)
 		}

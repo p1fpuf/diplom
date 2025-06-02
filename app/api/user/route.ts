@@ -1,29 +1,22 @@
 // app/api/user/route.ts
 import { NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
 import { prisma } from '@/lib/prisma'
-import jwt from 'jsonwebtoken'
-import { cookies } from 'next/headers'
+import type { NextRequest } from 'next/server'
 
-const JWT_SECRET = process.env.JWT_SECRET!
-
-export async function GET() {
+export async function GET(req: NextRequest) {
 	try {
-		const cookieStore = cookies()
-		const token = (await (cookieStore)).get('studio_token')?.value
+		const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
-		if (!token) {
+		if (!token || !token.id) {
 			return NextResponse.json({ error: 'Нет токена' }, { status: 401 })
 		}
 
-		const decoded = jwt.verify(token, JWT_SECRET) as { userId: number }
-
 		const user = await prisma.users.findUnique({
-			where: { id: decoded.userId },
+			where: { id: Number(token.id) },
 			include: {
 				bookings: {
-					include: {
-						services: true, // если у бронирования есть услуга
-					},
+					include: { services: true },
 				},
 			},
 		})

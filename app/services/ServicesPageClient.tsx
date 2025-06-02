@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Cookies from 'js-cookie'
 
 export default function ServicesPage({ services }: { services: any[] }) {
 	const [selectedService, setSelectedService] = useState<any | null>(null)
@@ -21,25 +22,34 @@ export default function ServicesPage({ services }: { services: any[] }) {
 	const handleBooking = async () => {
 		if (!selectedService || !appointmentTime) return
 		setIsSubmitting(true)
+
+		const [datePart, timePart] = appointmentTime.split('T')
+
 		try {
 			const res = await fetch('/api/bookings', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+				},
 				body: JSON.stringify({
 					serviceId: selectedService.id,
-					appointmentTime,
+					appointmentDate: datePart,
+					appointmentTime: timePart,
 				}),
 			})
+
 			if (!res.ok) throw new Error('Ошибка при записи')
+
 			setSuccessMessage('✅ Запись успешно оформлена!')
 			setSelectedService(null)
 			setAppointmentTime('')
 		} catch (err) {
-			alert('Ошибка при оформлении записи')
+			console.error('Ошибка:', err)
+			alert('Ошибка при оформлении записи. Пожалуйста, авторизуйтесь.')
 		} finally {
 			setIsSubmitting(false)
 		}
-	}
+	}	
 
 	return (
 		<main className='max-w-6xl mx-auto px-4 py-12 space-y-12'>
@@ -132,7 +142,6 @@ export default function ServicesPage({ services }: { services: any[] }) {
 				</div>
 			)}
 
-			{/* Успешное сообщение */}
 			{successMessage && (
 				<div className='fixed bottom-6 right-6 bg-emerald-500 text-white px-4 py-2 rounded-xl shadow-lg'>
 					{successMessage}
