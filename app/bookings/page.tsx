@@ -16,27 +16,39 @@ export default async function BookingsPage() {
 
 	return (
 		<div className='max-w-4xl mx-auto py-8 px-4'>
-			<h1 className='text-3xl font-bold mb-6'>Мои записи</h1>
+			<h1 className='text-3xl font-bold mb-6 text-[#5a3921]'>Мои записи</h1>
+
 			{bookings.length === 0 ? (
-				<p>У вас пока нет записей.</p>
+				<div className='bg-[#f8f5f0] rounded-xl p-8 text-center border border-[#e0d5c4]'>
+					<p className='text-[#8c6d46]'>У вас пока нет записей</p>
+				</div>
 			) : (
-				<ul className='space-y-4'>
+				<div className='space-y-4'>
 					{bookings.map(booking => (
-						<li
+						<div
 							key={booking.id}
-							className='border rounded-lg p-4 shadow-sm bg-white'
+							className='border border-[#e0d5c4] rounded-xl p-5 bg-[#f8f5f0] hover:shadow-md transition-all'
 						>
-							<h2 className='text-xl font-semibold'>
+							<h2 className='text-xl font-semibold text-[#5a3921] mb-2'>
 								{booking.services?.title}
 							</h2>
-							<p>
+
+							<p className='text-[#8c6d46] mb-1'>
 								Дата:{' '}
 								{new Date(booking.appointment_time).toLocaleString('ru-RU')}
 							</p>
-							<p>Статус: {booking.status}</p>
-						</li>
+
+							<p className='text-[#8c6d46]'>
+								Статус:{' '}
+								{booking.status === 'confirmed'
+									? 'подтверждена'
+									: booking.status === 'pending'
+									? 'ожидает'
+									: 'отменена'}
+							</p>
+						</div>
 					))}
-				</ul>
+				</div>
 			)}
 		</div>
 	)

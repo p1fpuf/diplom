@@ -50,6 +50,15 @@ export default function Header() {
 							</Link>
 						)
 					)}
+
+					{session?.user?.isAdmin && (
+						<Link
+							href='/admin'
+							className='text-[#4A4A4A] hover:text-[#7D5A50] transition-colors px-2 py-1 rounded-md font-medium'
+						>
+							Админ
+						</Link>
+					)}
 				</nav>
 
 				<div className='flex items-center gap-4'>

@@ -5,6 +5,7 @@ declare module 'next-auth' {
 	interface User {
 		id: string
 		avatarUrl?: string | null
+		isAdmin?: boolean
 	}
 
 	interface Session {
@@ -14,6 +15,7 @@ declare module 'next-auth' {
 			email?: string | null
 			image?: string | null
 			avatarUrl?: string | null
+			isAdmin?: boolean
 		}
 	}
 }
@@ -22,5 +24,6 @@ declare module 'next-auth/jwt' {
 	interface JWT {
 		id: string
 		avatarUrl?: string | null
+		isAdmin?: boolean
 	}
 }
